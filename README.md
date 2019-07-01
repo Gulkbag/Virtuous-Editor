@@ -24,3 +24,6 @@ Recommended way of building it though for not getting any warnings is
 ``gcc -o virtuous virtuous.c -Wall -W -pedantic -std=c99``
 For the program to be in your path simply do
 ``cp virtuous /usr/bin/``
+
+# Credits
+Thanks to ``Colin/C.night`` for coming up with the pallete and name for this editor
