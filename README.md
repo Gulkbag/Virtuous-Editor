@@ -25,5 +25,9 @@ Recommended way of building it though for not getting any warnings is
 For the program to be in your path simply do
 ``cp virtuous /usr/bin/``
 
+# Preview
+![](https://raw.githubusercontent.com/Gulkbag/Virtuous-Editor/master/Preview.PNG)
+![](https://raw.githubusercontent.com/Gulkbag/Virtuous-Editor/master/Preview2.PNG)
+
 # Credits
 Thanks to ``Colin/C. Night`` for coming up with the pallete and name for this editor
