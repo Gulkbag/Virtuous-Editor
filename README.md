@@ -2,7 +2,7 @@
 A minimalist text editor purely done in C and VT100 ASNI codes
 
 No ncurses nothing, why? because it's simple, it can be built by any linux compiler, without any fiddling with make files or any other thing
-Keep in mind this is a hoppyist project and not meant for commercial or actual use at all
+Keep in mind this is a hobbyist project and not meant for commercial or actual use at all
 
 # Key bindings
 CTRL-S - save
