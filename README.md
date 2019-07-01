@@ -26,4 +26,4 @@ For the program to be in your path simply do
 ``cp virtuous /usr/bin/``
 
 # Credits
-Thanks to ``Colin/C.night`` for coming up with the pallete and name for this editor
+Thanks to ``Colin/C. Night`` for coming up with the pallete and name for this editor
