@@ -1,5 +1,5 @@
-/* Virtous -- A very simple editor in less than 1k lines of code (as counted
- *         by "cloc"). Does not depend on libcurses, directly emits VT100
+/* Virtous -- A very simple editor very
+ * minimalistic. Does not depend on libcurses, directly emits VT100
  *         escapes on the terminal.
  *
  * -----------------------------------------------------------------------
@@ -12,12 +12,6 @@
  * met:
  *
  *  *  Do what the fuck you want i don't care
- * 
- * INFO:
- * AUTHOR: AHMED NASSER
- * FILE: VIRTUOUS.C
- * TIME CREATED: 7/1/2019 2:05 PM
- * LAST UPDATED: 7/1/2019 9:12 PM
  */
 
 #define VIRT_VERSION "0.0.1"
@@ -154,7 +148,7 @@ char *C_HL_keywords[] = {
         "struct","union","typedef","static","enum","class","NULL","nullptr",
         /* C types */
         "int|","long|","double|","float|","char|","unsigned|","signed|",
-        "void|","false|","true|",NULL
+        "void|","false|","true|","enum|",NULL
 };
 /* Python */
 char *PY_HL_extensions[] = {".py",".rpy",NULL};
@@ -169,14 +163,38 @@ char *LUA_HL_keywords[] = {
 	"require","if","then","while","do","for","return","else",
 	"function","self","nil","repeat","until","or","elseif",
 	"break",
-	"local|"
+	"local|",NULL
 };
 /* Javascript */
 char *JS_HL_extensions[] = {".js",".javascript",NULL};
 char *JS_HL_keywords[] = {
 	"require","if","else","function","const","import","debugger","case",
 	"final","class","goto","instaceof","abstract","eval",
-	"true|","false|","let|","var|","delete|","yield|"
+	"true|","false|","let|","var|","delete|","yield|",NULL
+};
+/* Vim script */
+char *VS_HL_extensions[] = {".vim", ".nvim",NULL};
+char *VS_HL_keywords[] = {
+	"call","set","let","echo","function!","if",
+	"else","endif","endfunction","g:","w:","s:","l:",
+	"for","endfor","while","endwhile",
+	"<leader>|","nmap|","imap|","vmap|","local",NULL
+};
+/* PHP */
+char *PHP_HL_extensions[] = {".php",".phpfile",NULL};
+char *PHP_HL_keywords[] = {
+	"break","clone","die()","empty()","endswitch",
+	"final","global","include_once","list()","return",
+	"try","xor","const","do","enddeclare","endwhile","goto",
+	"instanceof","unset()","yield","and","case","continue",
+	"echo","endfor","eval()","for","if","insteadof","new",
+	"switch","use","yield from","array()","catch","declare",
+	"else","endforeach","exit()","foreach","interface",
+	"or","require","throw","var","as","default","elseif",
+	"endif","function","include","isset()","print","require_once",
+	"while",
+	"trait|","extends|","class|","implements|","public|","static|",
+	"protected|","namespace|","finally|","callable|","private|",NULL
 };
 
 /* Here we define an array of syntax highlights by extensions, keywords,
@@ -207,6 +225,20 @@ struct editorSyntax HLDB[] = {
 	    /* JS */
 	    JS_HL_extensions,
 	    JS_HL_keywords,
+	    "//","/*","*/",
+	    HL_HIGHLIGHT_STRINGS | HL_HIGHLIGHT_NUMBERS
+    },
+    {
+	    /* VIM SCRIPT */
+	    VS_HL_extensions,
+	    VS_HL_keywords,
+	    "\"","\"","\"",
+	    HL_HIGHLIGHT_STRINGS | HL_HIGHLIGHT_NUMBERS
+    },
+    {
+	    /* PHP */
+	    PHP_HL_extensions,
+	    PHP_HL_keywords,
 	    "//","/*","*/",
 	    HL_HIGHLIGHT_STRINGS | HL_HIGHLIGHT_NUMBERS
     }
@@ -1213,6 +1245,7 @@ void editorProcessKeypress(int fd) {
             quit_times--;
             return;
         }
+	printf("\033\[2J");
         exit(0);
         break;
     case CTRL_S:        /* Ctrl-s */
@@ -1239,6 +1272,7 @@ void editorProcessKeypress(int fd) {
                                             ARROW_DOWN);
         }
         break;
+
     case ARROW_UP:
     case ARROW_DOWN:
     case ARROW_LEFT:
@@ -1249,7 +1283,15 @@ void editorProcessKeypress(int fd) {
         /* Just refresht the line as side effect. */
         break;
     case ESC:
-        /* Nothing to do for ESC in this mode. */
+        /* Quit if file was already saved */
+	if (E.dirty && quit_times) {
+		editorSetStatusMessage("WARNING!!! File has unsaved changes. "
+				"Press ESC %d more times to quit.", quit_times);
+		quit_times--;
+		return;
+	}
+	printf("\033\[2J");
+	exit(0);
         break;
     default:
         editorInsertChar(c);
@@ -1293,7 +1335,7 @@ int main(int argc, char **argv) {
     editorOpen(argv[1]);
     enableRawMode(STDIN_FILENO);
     editorSetStatusMessage(
-        "HELP: Ctrl-S = save | Ctrl-Q = quit | Ctrl-F = find | DISCLAIMER: DON'T PRESS ESC");
+        "HELP: Ctrl-S = save | Ctrl-Q = quit | Ctrl-F = find | PLEASE DON'T PRESS THE ESC KEY IT LOCKS THE TERMINAL");
     while(1) {
         editorRefreshScreen();
         editorProcessKeypress(STDIN_FILENO);
