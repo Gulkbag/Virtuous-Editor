@@ -12,7 +12,16 @@ CTRL-F - find
 Usage - ``virtuous <file name>``
 
 # Syntax Highlighting
-Currently there is syntax highlighting for C/C++, Python and Lua, other languages will come soon enough
+Currently there is syntax highlighting for
+
+- PHP
+- C/C++
+- Lua
+- Python
+- Javascript
+- Vim script
+
+other languages will come soon enough
 
 # Pallete changing
 Simply change the color values inside the ``editorSyntaxToColor`` function, adding syntax highlighting for special files is documented inside the file
