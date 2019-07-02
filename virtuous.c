@@ -4,7 +4,7 @@
  *
  * -----------------------------------------------------------------------
  *
- * Copyleft (C) 2019 Ahmed nasser <antirez at gmail dot com>
+ * Copyleft (C) 2019 Ahmed nasser <ahmednasser at gmail dot com>
  *
  *
  * Redistribution and use in source and binary forms, with or without
